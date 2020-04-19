@@ -1,0 +1,109 @@
+#!/bin/bash
+if [ -e /tmp/proxy ];then
+    source /tmp/proxy
+fi
+thisScriptDir=$(cd $(dirname ${BASH_SOURCE}) && pwd)
+cd $thisScriptDir
+
+#TODO need root privilege
+if [[ -n ${SUDO_USER} ]];then
+    su $USER -c "cp lctl /usr/local/bin"
+else
+    cp lctl /usr/local/bin
+
+fi
+exit 0
+if [[ "$(uname)" != "Darwin" ]];then
+    echo "Not macOS"
+    exit 1
+fi
+
+function usage(){
+    echo "dev-mac [options]"
+    echo "options:"
+    echo "-l    local proxy,ie socks5://localhost:1080"
+    echo "-p   [URL of proxy] socks5 or http proxy"
+    exit 0
+}
+
+USER=${SUDO_USER:-$(whoami)}
+proxy=
+while getopts ":hlp:" opt;do
+    case "$opt" in
+        h)
+            usage
+            ;;
+        l)
+            proxy=socks5://localhost:1080
+            ;;
+        p)
+            proxy=$OPTARG
+            ;;
+        :)
+            echo "option: '$OPTARG' need argument!!"
+            exit 1
+            ;;
+        \?)
+            echo "option: '$OPTARG' not supported!!"
+            exit 1
+            ;;
+    esac
+done
+
+if [[ -n "$proxy" ]];then
+    echo "using proxy: $proxy"
+    shopt -s expand_aliases
+
+    #set brew proxy
+    alias brew="ALL_PROXY=$proxy brew"
+    #set curl proxy
+    #curl -x or curl --proxy or http_proxy environment variable
+    #support http or socks5 proxy
+    alias curl="curl -x $proxy"
+    #set git proxy
+    git config --global http.proxy "$proxy"
+
+    #set wget proxy
+    export http_proxy="$proxy"
+    export https_proxy="$proxy"
+    export ftp_proxy="$proxy"
+
+    export HTTP_PROXY="$proxy"
+    export HTTPS_PROXY="$proxy"
+    export FTP_PROXY="$proxy"
+fi
+#install homebrew
+#if ! command -v brew >/dev/null;then
+if [[ ! -e /usr/local/bin/brew ]];then
+    echo "install homebrew..."
+    if [[ -n ${SUDO_USER} ]];then
+        su ${SUDO_USER} -c "curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install|/usr/bin/ruby"
+    else
+        curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install|/usr/bin/ruby
+    fi
+fi
+
+sudo spctl --master-disable
+
+# apps="coreutils findutils grep gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt gnu-which wget python3 privoxy tree go pv"
+apps="coreutils findutils grep gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt gnu-which wget python3 tree go pv"
+for app in $apps;do
+    if ! brew list $app >/dev/null 2>&1;then
+        echo "Install $app..."
+        if [[ -n ${SUDO_USER} ]];then
+            su $USER -c "brew install $app"
+        else
+            brew install $app
+        fi
+    fi
+done
+#install vim with python3 support
+echo "Install vim with python3 support"
+if [[ -n ${SUDO_USER} ]];then
+    su $USER -c "brew install vim"
+else
+    brew install vim
+fi
+
+SBIN=$(find /usr/local/Cellar/privoxy -name "sbin")
+ln -svf  $SBIN/privoxy /usr/local/bin/privoxy
