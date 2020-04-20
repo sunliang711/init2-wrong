@@ -92,6 +92,7 @@ install(){
 
         cd ..
     done <<< $(find . -maxdepth 1 ! -path . -type d)
+    #TODO when failed,check bash version must 4+
 
     $VIM ${userChoiceFile}
 

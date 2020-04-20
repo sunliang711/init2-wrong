@@ -55,6 +55,8 @@ nnoremap j gj
 nnoremap k gk
 " nnoremap ; :
 
+vnoremap <c-y> "+y
+nnoremap <c-p> "+p
 
 let os = substitute(system("uname"),"\n","","")
 if os ==? "Darwin"
