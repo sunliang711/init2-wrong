@@ -3,11 +3,11 @@ if command -v fd >/dev/null 2>&1;then
 fi
 export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
 
-fzfp() {
+fp() {
     fzf --bind 'ctrl-f:preview-page-down' --bind 'ctrl-b:preview-page-up' --preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || rougify {}  || highlight -O ansi -l {} || coderay {} || cat -n {}) 2> /dev/null | head -500'
 }
 
-fzfe(){
+fe(){
     local dest=${1:-.}
     if [ -d "$dest" ];then
         local wd=$(pwd)
@@ -17,7 +17,7 @@ fzfe(){
         return 1
     fi
 
-    editor=vi
+    local editor=vi
     if command -v vim >/dev/null 2>&1;then
         editor=vim
     fi
@@ -38,7 +38,7 @@ fzfe(){
     cd "$wd"
 }
 
-fzfE(){
+fE(){
     local dest=${1:-.}
     if [ -d "$dest" ];then
         local wd=$(pwd)
@@ -48,7 +48,7 @@ fzfE(){
         return 1
     fi
 
-    editor=vi
+    local editor=vi
     if command -v vim >/dev/null 2>&1;then
         editor=vim
     fi
@@ -69,7 +69,7 @@ fzfE(){
     cd "$wd"
 }
 
-fzfcd(){
+fcd(){
     local dest=${1:-.}
     if [ -d "$dest" ];then
         local wd=$(pwd)
@@ -87,7 +87,7 @@ fzfcd(){
     fi
 }
 
-fzfCD(){
+fCD(){
     local dest=${1:-.}
     if [ -d "$dest" ];then
         local wd=$(pwd)

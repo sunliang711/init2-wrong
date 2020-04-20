@@ -11,6 +11,8 @@ home=$(eval echo ~$user)
 
 #BEGIN environment variable
 export workspace=$HOME/Workspace
+export ws=$workspace
+
 export GOPATH=$HOME/.go
 export GOBIN=$GOPATH/bin
 
