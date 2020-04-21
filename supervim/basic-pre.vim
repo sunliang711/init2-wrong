@@ -156,7 +156,7 @@ if executable('rg')
     set grepformat=%f:%l:%c:%m,%f:%l:%m
 endif
 
-command! -nargs=+ -complete=file -bar GREP silent! grep! <args>|cwindow|redraw!
+command! -nargs=+ -complete=file -bar GREP silent! grep! <args>|cwindow|redraw!|cfirst
 nnoremap \\ :GREP<SPACE>
 nnoremap <silent> \c :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
