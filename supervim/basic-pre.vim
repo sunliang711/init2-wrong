@@ -143,17 +143,28 @@ inoremap <silent> <C-l> <esc><C-W>l
 " inoremap <silent> <C-j> <esc><C-W>j
 " noremap <silent> <C-k> <C-W>k
 " inoremap <silent> <C-k> <esc><C-W>k
+if executable('ag')
+    set grepprg=ag\ --nogroup\ --nocolor\ --column
+    "f: file l: line c: column m: matched text
+    set grepformat=%f:%l:%c:%m
+endif
 
 " set grepprg to use ripgrep(rg) if it exists
 if executable('rg')
     set grepprg=rg\ --vimgrep\ --no-heading\ --smart-case
+   "f: file l: line c: column m: matched text
     set grepformat=%f:%l:%c:%m,%f:%l:%m
-    " nnoremap <silent> [l :lprevious<CR>
-    " nnoremap <silent> ]l :lnext<CR>
-
-    " nnoremap <silent> [f :cprevious<CR>
-    " nnoremap <silent> ]f :cnext<CR>
 endif
+
+command! -nargs=+ -complete=file -bar GREP silent! grep! <args>|cwindow|redraw!
+nnoremap \\ :GREP<SPACE>
+nnoremap <silent> \c :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+nnoremap <silent> [q :cprevious<CR>
+nnoremap <silent> ]q :cnext<CR>
+
+nnoremap <silent> [l :lprevious<CR>
+nnoremap <silent> ]l :lnext<CR>
 
 nnoremap <leader>U gUiw
 nnoremap <leader>u guiw
