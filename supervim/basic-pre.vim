@@ -162,6 +162,7 @@ nnoremap <silent> \c :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
+nnoremap <silent> ]x :cclose<CR>
 
 nnoremap <silent> [l :lprevious<CR>
 nnoremap <silent> ]l :lnext<CR>
