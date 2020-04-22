@@ -8,7 +8,7 @@ fp() {
 }
 
 fe(){
-    local dest=${1:-.}
+    local dest=${1:-$HOME}
     if [ -d "$dest" ];then
         local wd=$(pwd)
         cd "$dest"
@@ -39,7 +39,7 @@ fe(){
 }
 
 fE(){
-    local dest=${1:-.}
+    local dest=${1:-$HOME}
     if [ -d "$dest" ];then
         local wd=$(pwd)
         cd "$dest"
@@ -70,7 +70,7 @@ fE(){
 }
 
 fcd(){
-    local dest=${1:-.}
+    local dest=${1:-$HOME}
     if [ -d "$dest" ];then
         local wd=$(pwd)
         cd "$dest"
@@ -88,7 +88,7 @@ fcd(){
 }
 
 fCD(){
-    local dest=${1:-.}
+    local dest=${1:-$HOME}
     if [ -d "$dest" ];then
         local wd=$(pwd)
         cd "$dest"
