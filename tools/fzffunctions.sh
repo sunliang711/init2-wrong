@@ -3,6 +3,32 @@ if command -v fd >/dev/null 2>&1;then
 fi
 export FZF_DEFAULT_OPTS='-m --height 70% --reverse --border'
 
+fzff(){
+    local dest=${1:-$HOME}
+    if [ -d "$dest" ];then
+        local wd=$(pwd)
+        cd "$dest"
+    else
+        echo "No such directory: '$dest'"
+        return 1
+    fi
+
+    fd --type f | fzf || { echo "canceld"; cd $wd; }
+}
+
+fzfd(){
+    local dest=${1:-$HOME}
+    if [ -d "$dest" ];then
+        local wd=$(pwd)
+        cd "$dest"
+    else
+        echo "No such directory: '$dest'"
+        return 1
+    fi
+
+    fd --type d | fzf || { echo "canceld."; cd $wd; }
+}
+
 fp() {
     fzf --bind 'ctrl-f:preview-page-down' --bind 'ctrl-b:preview-page-up' --preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || rougify {}  || highlight -O ansi -l {} || coderay {} || cat -n {}) 2> /dev/null | head -500'
 }
