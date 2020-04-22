@@ -12,7 +12,7 @@ let g:Lf_ShortcutB = "<space>b"
 nnoremap <space>m :Leaderf mru<CR>
 
 " 使用rg(ripgrep)来搜索(search)
-nnoremap <space><space>s :Leaderf rg<CR>
+nnoremap <space>sr :Leaderf rg<CR>
 " 当跳转到一条搜索结果后，继续跳到下一条的结果
 nnoremap <space>sn :Leaderf rg --next<CR>
 " 当跳转到一条搜索结果后，继续跳到上一条的结果
