@@ -1,7 +1,7 @@
 if command -v fd >/dev/null 2>&1;then
-    export FZF_DEFAULT_COMMAND='fd --type f'
+    export FZF_DEFAULT_COMMAND='fd --type f --type d'
 fi
-export FZF_DEFAULT_OPTS='--height 70% --reverse --border'
+export FZF_DEFAULT_OPTS='-m --height 70% --reverse --border'
 
 fp() {
     fzf --bind 'ctrl-f:preview-page-down' --bind 'ctrl-b:preview-page-up' --preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || rougify {}  || highlight -O ansi -l {} || coderay {} || cat -n {}) 2> /dev/null | head -500'
