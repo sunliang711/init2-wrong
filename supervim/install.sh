@@ -196,7 +196,7 @@ cfgEOFx
             #skip
             continue
         fi
-        echo "Enter plugin dir: $dirname"
+        echo "Run post script in: $dirname"
         cd "$dirname"
 
         #2. run plugin script

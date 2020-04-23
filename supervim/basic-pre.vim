@@ -133,11 +133,19 @@ else
     nnoremap <silent> <leader>c :tab e ~/.vim/basic-pre.vim<CR>
 endif
 
+
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :bprevious<CR>
+
+nnoremap <silent> ]t :tabnext<CR>
+nnoremap <silent> [t :tabprevious<CR>
 "移动窗口指令
-noremap <silent> <C-h> <C-W>h
-inoremap <silent> <C-h> <esc><C-W>h
-noremap <silent> <C-l> <C-W>l
-inoremap <silent> <C-l> <esc><C-W>l
+" nnoremap <silent> <C-h> <C-W>h
+" inoremap <silent> <C-h> <esc><C-W>h
+" noremap <silent> <C-l> <C-W>l
+" inoremap <silent> <C-l> <esc><C-W>l
+nnoremap <silent> [w <C-W>h
+nnoremap <silent> ]w <C-W>l
 " 上下分割窗口较少使用到，因此把快捷键留出来给UltiSnips插件用(虽然同时设置也不会冲突)
 " noremap <silent> <C-j> <C-W>j
 " inoremap <silent> <C-j> <esc><C-W>j
@@ -172,12 +180,6 @@ nnoremap <silent> ]l :lnext<CR>
 
 nnoremap <leader>U gUiw
 nnoremap <leader>u guiw
-
-nnoremap <silent> ]b :bnext<CR>
-nnoremap <silent> [b :bprevious<CR>
-
-nnoremap <silent> ]t :tabnext<CR>
-nnoremap <silent> [t :tabprevious<CR>
 "save as root
 "cmap w!! w !sudo tee>/dev/null %
 

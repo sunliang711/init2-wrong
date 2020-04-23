@@ -25,8 +25,6 @@ if [ -z "$rpath" ];then
 fi
 thisScriptDir="$(cd $(dirname $rpath) && pwd)"
 
-echo "thisScriptDir: $thisScriptDir"
-echo "vimroot: $vimroot"
 
 cp ${thisScriptDir}/coc-settings.json $vimroot
 
