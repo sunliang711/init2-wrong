@@ -1,18 +1,18 @@
 #load basic
-source "${HOME}/.shellrc.d/basic"
+source ~/.shellrc.d/basic
 
 #load function
-source "${HOME}/.shellrc.d/function"
+source ~/.shellrc.d/function
 
 #load env
-Source "${HOME}/.shellrc.d/env"
+Source ~/.shellrc.d/env
 
 #load alias
-Source "${HOME}/.shellrc.d/alias"
+Source ~/.shellrc.d/alias
 
 #other
-Source "${HOME}/.shellrc.d/other"
+Source ~/.shellrc.d/other
 
 #local
-Source "${HOME}/.shellrc.d/local"
+Source ~/.shellrc.d/local
 # vim: set ft=sh:
