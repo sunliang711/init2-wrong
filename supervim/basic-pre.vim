@@ -164,12 +164,20 @@ nnoremap <silent> [q :cprevious<CR>
 nnoremap <silent> ]q :cnext<CR>
 nnoremap <silent> ]x :cclose<CR>
 
+nnoremap <silent> ]f :cnfile<CR>
+nnoremap <silent> [f :cpfile<CR>
+
 nnoremap <silent> [l :lprevious<CR>
 nnoremap <silent> ]l :lnext<CR>
 
 nnoremap <leader>U gUiw
 nnoremap <leader>u guiw
 
+nnoremap <silent> ]b :bnext<CR>
+nnoremap <silent> [b :bprevious<CR>
+
+nnoremap <silent> ]t :tabnext<CR>
+nnoremap <silent> [t :tabprevious<CR>
 "save as root
 "cmap w!! w !sudo tee>/dev/null %
 
