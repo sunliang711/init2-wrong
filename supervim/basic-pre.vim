@@ -146,6 +146,8 @@ nnoremap <silent> [t :tabprevious<CR>
 " inoremap <silent> <C-l> <esc><C-W>l
 nnoremap <silent> [w <C-W>h
 nnoremap <silent> ]w <C-W>l
+
+nnoremap <silent> \w <C-W>
 " 上下分割窗口较少使用到，因此把快捷键留出来给UltiSnips插件用(虽然同时设置也不会冲突)
 " noremap <silent> <C-j> <C-W>j
 " inoremap <silent> <C-j> <esc><C-W>j
