@@ -1022,7 +1022,7 @@ function newsh(){
 		cyan=$(tput setaf 5)
         bold=$(tput bold)
 		reset=$(tput sgr0)
-		runAsRoot(){
+		function runAsRoot(){
 		    verbose=0
 		    while getopts ":v" opt;do
 		        case "$opt" in
@@ -1057,7 +1057,8 @@ function newsh(){
 		    fi
 		}
 		###############################################################################
-        # write your code below (just define function[s])
+		# write your code below (just define function[s])
+		# function with 'function' is hidden when run help, without 'function' is show
 		###############################################################################
 		# TODO
 
@@ -1066,13 +1067,13 @@ function newsh(){
 		###############################################################################
 		# write your code above
 		###############################################################################
-		help(){
+		function help(){
 		    cat<<EOF2
 		Usage: $(basename $0) ${bold}CMD${reset}
 
 		${bold}CMD${reset}:
 		EOF2
-	    perl -lne 'print "\t$2" if /^(function)?\s*?(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v runAsRoot
+	    perl -lne 'print "\t$1" if /^\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v runAsRoot
 		}
 
 		case "$1" in
