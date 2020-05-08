@@ -66,11 +66,18 @@ install(){
     cat<<EOF > ${dest}/logrotate.conf
 #/tmp/testfile.log {
     #weekly | monthly | yearly
-    #rotate 5
     # Note: size will override weekly | monthly | yearly
     #size 100k # | size 200M | size 1G
+
+    #rotate 3
     #compress
-    #create 0640 [user] [group]
+
+    # Note: copytruncate conflics with create
+    # and copytruncate works well with tail -f,create not works well with tail -f
+    #create 0640 user group
+    #copytruncate
+
+    #su root root
 #}
 EOF
     cat<<EOF2
