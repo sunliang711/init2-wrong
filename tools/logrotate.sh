@@ -64,15 +64,14 @@ install(){
         mkdir -p $dest
     fi
     cat<<EOF > ${dest}/logrotate.conf
-/tmp/testfile.log {
-    # weekly | monthly | yearly
-    rotate 5
-    #Note: size will override weekly | monthly | yearly
-    # size 100k # | size 200M | size 1G
-    size 1k
-    compress
-    create 0640 eagle eagle
-}
+#/tmp/testfile.log {
+    #weekly | monthly | yearly
+    #rotate 5
+    # Note: size will override weekly | monthly | yearly
+    #size 100k # | size 200M | size 1G
+    #compress
+    #create 0640 [user] [group]
+#}
 EOF
     cat<<EOF2
 Tips:
