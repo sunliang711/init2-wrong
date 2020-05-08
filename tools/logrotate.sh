@@ -58,10 +58,11 @@ function runAsRoot(){
 install(){
     local defaultDest=$home/.logrotate
     local dest=${1:-$defaultDest}
+    local confDir=conf.d
     echo "logrotate dest: $dest"
     if [ ! -d "$dest" ];then
         echo "mkdir $dest..."
-        mkdir -p $dest
+        mkdir -p $dest/$confDir
     fi
     cat<<EOF > ${dest}/logrotate.conf
 #/tmp/testfile.log {
@@ -79,10 +80,11 @@ install(){
 
     #su root root
 #}
+include ${dest}/$confDir
 EOF
     cat<<EOF2
 Tips:
-    add settings to ${dest}/logrotate.conf
+    add settings to ${dest}/$confDir
     use logrotate -d ${dest}/logrotate.conf to check configuration file syntax
     add "logrotate -s ${dest}/status ${dest}/logrotate.conf" to crontab(Linux) or launchd(MacOS)
 EOF2
