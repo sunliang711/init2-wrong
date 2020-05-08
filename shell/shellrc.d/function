@@ -1092,6 +1092,40 @@ function newsh(){
     "$editor" "$filename"
 }
 
+function newlogrotate(){
+    filename=${1}
+    if [ -z "$filename" ];then
+        echo "Usage: ${green}$(basename $0)${reset} <new logrotate config file>"
+        return 1
+    fi
+    local editor=vi
+    if command -v vim >/dev/null 2>&1;then
+        editor=vim
+    fi
+    if command -v nvim >/dev/null 2>&1;then
+        editor=nvim
+    fi
+    cat>$filename<<EOF
+<PUT_YOUR_FILE_HERE> {
+    #weekly | monthly | yearly
+    # Note: size will override weekly | monthly | yearly
+    #size 100k # | size 200M | size 1G
+
+    #rotate 3
+    #compress
+
+    # Note: copytruncate conflics with create
+    # and copytruncate works well with tail -f,create not works well with tail -f
+    #create 0640 user group
+    #copytruncate
+
+    #su root root
+}
+EOF
+    $editor $filename
+
+}
+
 function newpy(){
     filename=${1}
     if [ -z "$filename" ];then
