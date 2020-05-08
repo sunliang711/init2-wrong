@@ -60,8 +60,8 @@ install(){
     local dest=${1:-$defaultDest}
     local confDir=conf.d
     echo "logrotate dest: $dest"
-    if [ ! -d "$dest" ];then
-        echo "mkdir $dest..."
+    if [ ! -d "$dest/$confDir" ];then
+        echo "mkdir $dest/$confDir..."
         mkdir -p $dest/$confDir
     fi
     cat<<EOF > ${dest}/logrotate.conf
