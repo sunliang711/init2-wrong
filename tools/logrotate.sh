@@ -86,7 +86,7 @@ EOF
 Tips:
     add settings to ${dest}/$confDir
     use logrotate -d ${dest}/logrotate.conf to check configuration file syntax
-    add "logrotate -s ${dest}/status ${dest}/logrotate.conf" to crontab(Linux) or launchd(MacOS)
+    add "/usr/sbin/logrotate -s ${dest}/status ${dest}/logrotate.conf" to crontab(Linux) or launchd(MacOS)
 EOF2
 }
 
