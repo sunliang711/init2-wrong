@@ -91,18 +91,18 @@ install(){
             usage
             ;;
     esac
+    if [ ! -e "$home/.editrc" ] || ! grep -q 'bind -v' "$home/.editrc";then
+        echo 'bind -v' >> "$home/.editrc"
+    fi
+    if [ ! -e "$home"/.inputrc ] || ! grep -q 'set editing-mode vi' "$home/.inputrc";then
+        echo 'set editing-mode vi' >> "$home/.inputrc"
+    fi
     case $(uname) in
         Darwin)
             # macOS uses libedit, 'bind -v' set vi mode,such as python interactive shell,mysql
-            if [ ! -e "$home/.editrc" ] || ! grep -q 'bind -v' "$home/.editrc";then
-                echo 'bind -v' >> "$home/.editrc"
-            fi
             ;;
         Linux)
             # Linux uses readline library,'set editing-mode vi' set vi mode
-            if [ ! -e "$home"/.inputrc ] || ! grep -q 'set editing-mode vi' "$home/.inputrc";then
-                echo 'set editing-mode vi' >> "$home/.inputrc"
-            fi
             ;;
     esac
     # runAsRoot -v ln -sf $root/shellrc $globalrc
