@@ -5,6 +5,27 @@ export FZF_DEFAULT_OPTS='-m --height 70% --reverse --border'
 
 ##TODO add -h -H like fcd
 fzff(){
+    fdoption="--type f"
+    findoption="-type f -not -path '*/\.*'"
+    while getopts ":hH" opt;do
+        case "$opt" in
+            h)
+                cat<<-EOF
+				Usage: $0 [Options] [path(default: \$HOME)]
+				Options:
+				-h              help
+				-H              show hidden direcories
+				EOF
+                return 0
+                ;;
+            H)
+                fdoption="-HI --type d"
+                findoption="-type d"
+                ;;
+        esac
+    done
+    shift $((OPTIND-1))
+
     local dest=${1:-$HOME}
     if [ -d "$dest" ];then
         local wd=$(pwd)
@@ -14,7 +35,7 @@ fzff(){
         return 1
     fi
 
-    fd --type f | fzf || { echo "canceld"; cd $wd; }
+    eval "fd $fdoption" | fzf || { echo "canceld" >&2; cd $wd; }
 }
 
 ##TODO add -h -H like fcd
