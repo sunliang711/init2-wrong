@@ -1,3 +1,25 @@
+snippet cmake "cmake template" b
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(${projectName})
+SET(SRC ${1:main.c})
+
+# SET(CMAKE_EXPORT_COMPILE_COMMANDS on)
+SET(CMAKE_C_FLAGS "\${CMAKE_C_FLAGS}")
+# SET(CMAKE_CXX_FLAGS "\${CMAKE_CXX_FLAGS}")
+
+INCLUDE_DIRECTORIES(\${LLVM_INCLUDE_DIRS})
+
+FUNCTION(add_executable target_name)
+# call builtin add_executable first
+	_add_executable(\${target_name} \${ARGN})
+# add custom statement
+	# EXECUTE_PROCESS(COMMAND ln -sf \${PROJECT_BINARY_DIR}/compile_commands.json \${PROJECT_SOURCE_DIR})
+ENDFUNCTION(add_executable target_name)
+
+ADD_EXECUTABLE(\${PROJECT_NAME} \${SRC})
+#target_link_libraries(\${PROJECT_NAME} \${libname})
+endsnippet
+
 snippet cmakellvm "cmake with llvm" b
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 project(hellooo)
@@ -41,11 +63,12 @@ endsnippet
 
 snippet cmakeglib "cmake with glib" b
 cmake_minimum_required(VERSION 2.6.4)
-project(my_proj)
+project(${1:projectName})
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLIB REQUIRED glib-2.0)
 
+SET(SRC ${2:main.c})
 SET(CMAKE_EXPORT_COMPILE_COMMANDS on)
 FUNCTION(add_executable target_name)
 # call builtin add_executable firsT
@@ -54,7 +77,7 @@ FUNCTION(add_executable target_name)
 	EXECUTE_PROCESS(COMMAND ln -sf \${PROJECT_BINARY_DIR}/compile_commands.json \${PROJECT_SOURCE_DIR})
 ENDFUNCTION(add_executable target_name)
 
-INCLUDE_DIRECTORIES(/usr/include/glib-2.0)
+# INCLUDE_DIRECTORIES(/usr/include/glib-2.0)
 INCLUDE_DIRECTORIES(\${GLIB_INCLUDE_DIRS})
 
 MESSAGE(STATUS "GLIB_INCLUDE_DIRS: \${GLIB_INCLUDE_DIRS}")
@@ -62,8 +85,8 @@ MESSAGE(STATUS "GLIB_LIBRARY_DIRS: \${GLIB_LIBRARY_DIRS}")
 
 LINK_DIRECTORIES(\${GLIB_LIBRARY_DIRS})
 
-ADD_EXECUTABLE(my_proj helloglib.c)
+ADD_EXECUTABLE(\${PROJECT_NAME} \${SRC})
 
 ADD_DEFINITIONS(\${GLIB_CFLAGS_OTHER})
-TARGET_LINK_LIBRARIES(my_proj \${GLIB_LIBRARIES})
+TARGET_LINK_LIBRARIES(\${PROJECT_NAME} \${GLIB_LIBRARIES})
 endsnippet
