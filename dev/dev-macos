@@ -103,7 +103,7 @@ fi
 echo "allow App Store all source..."
 runAsRoot "spctl --master-disable"
 #6. brew install: vim nvim coreutils findutils grep gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt gnu-which wget python3 tree go pv
-apps="bash coreutils findutils grep gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt gnu-which wget python3 tree go pv"
+apps="bash coreutils findutils grep gnu-tar gnu-sed gawk gnutls gnu-indent gnu-getopt gnu-which wget python3 tree go pv fd bat"
 for app in $apps;do
     if ! brew list $app >/dev/null 2>&1;then
         echo "Install $app..."
