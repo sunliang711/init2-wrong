@@ -25,18 +25,18 @@ else
     (cd shell && bash 10-zsh-installer.sh && bash 20-set-zsh-theme.sh && bash 30-config-shell.sh all)
 fi
 
-#vim
-if [ "$option" == "-o" ];then
-    (cd supervim && bash install.sh -o vim)
-else
-    (cd supervim && bash install.sh vim)
-fi
+##vim
+#if [ "$option" == "-o" ];then
+#    (cd supervim && bash install.sh -o vim)
+#else
+#    (cd supervim && bash install.sh vim)
+#fi
 
-#nvim
-if [ "$option" == "-o" ];then
-    (cd supervim && bash install.sh -o nvim)
-else
-    (cd supervim && bash install.sh nvim)
-fi
+##nvim
+#if [ "$option" == "-o" ];then
+#    (cd supervim && bash install.sh -o nvim)
+#else
+#    (cd supervim && bash install.sh nvim)
+#fi
 
 (cd tmux && bash install.sh)
