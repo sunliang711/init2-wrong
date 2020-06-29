@@ -649,7 +649,7 @@ cat>/tmp/$1.plist<<EOF
     <key>Label</key>
     <string></string>
     <key>WorkingDirectory</key>
-    <string>PWD</string>
+    <string>TODO</string>
     <key>ProgramArguments</key>
     <array>
         <string>PROGRAM_PUT_HERE</string>
@@ -663,9 +663,34 @@ cat>/tmp/$1.plist<<EOF
     <key>StandardErrorPath</key>
     <string>STD_ERR_FILE_PUT_HERE</string>
     -->
-    <!--
     <key>RunAtLoad</key>
     <true/>
+    <!--
+        start job every 60 seconds
+    -->
+    <!--
+    <key>StartInterval</key>
+    <integer>60</integer>
+    -->
+
+    <!--
+        crontab like job schedular
+    -->
+    <!--
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Minute</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>0</integer>
+        <key>Day</key>
+        <integer>0</integer>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Month</key>
+        <integer>0</integer>
+    </dict>
+
     -->
 </dict>
 </plist>

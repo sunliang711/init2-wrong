@@ -86,8 +86,67 @@ EOF
 Tips:
     add settings to ${dest}/$confDir
     use logrotate -d ${dest}/logrotate.conf to check configuration file syntax
-    add "/usr/sbin/logrotate -s ${dest}/status ${dest}/logrotate.conf" to crontab(Linux) or launchd(MacOS)
+    add "/path/to/logrotate -s ${dest}/status ${dest}/logrotate.conf" to crontab(Linux) or launchd(MacOS)
 EOF2
+
+    case $(uname) in
+        Darwin)
+            cat<<EOF3>$home/Library/LaunchAgents/mylogrotate.plist
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>mylogrotate</string>
+    <key>WorkingDirectory</key>
+    <string>/tmp</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>$(which logrotate)</string>
+        <string>-s</string>
+        <string>${dest}/status</string>
+        <string>${dest}/logrotate.conf</string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>/tmp/mylogrotate.out</string>
+    <key>StandardErrorPath</key>
+    <string>/tmp/mylogrotate.err</string>
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!--
+        start job every 60 seconds
+    -->
+    <key>StartInterval</key>
+    <integer>5</integer>
+
+    <!--
+        crontab like job schedular
+    -->
+    <!--
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Minute</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>0</integer>
+        <key>Day</key>
+        <integer>0</integer>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Month</key>
+        <integer>0</integer>
+    </dict>
+
+    -->
+</dict>
+</plist>
+EOF3
+            ;;
+        Linux)
+            (crontab -l 2>/dev/null;echo "*/10 * * * * $(which logrotate) -s ${dest}/status ${dest}/logrotate.conf")|crontab -
+            ;;
+    esac
 }
 
 
