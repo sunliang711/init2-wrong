@@ -70,10 +70,9 @@ EOF
 
 bashrc="${home}/.bashrc"
 zshrc="${home}/.zshrc"
-# globalrc=/etc/shellrc
 shellrc="$home/.shellrc"
 shellrcd="$home/.shellrc.d"
-tools="$home/.tools"
+bindir="$home/.bin"
 
 install(){
     local type=${1}
@@ -105,17 +104,15 @@ install(){
             # Linux uses readline library,'set editing-mode vi' set vi mode
             ;;
     esac
-    # runAsRoot -v ln -sf $root/shellrc $globalrc
-    # runAsRoot -v ln -sf $root/tools /usr/local/bin
     rm -rf $shellrc >/dev/null 2>&1
     rm -rf $shellrcd >/dev/null 2>&1
-    rm -rf $tools >/dev/null 2>&1
-    # runAsRoot "rm -rf /etc/shell-header.sh >/dev/null 2>&1"
 
     ln -sf $root/shellrc $shellrc
     ln -sf $root/shellrc.d $shellrcd
-    ln -sf $root/tools $tools
-    # runAsRoot "ln -sf $root/shell-header.sh /etc"
+    if [ ! -d "$bindir" ];then
+        mkdir "$bindir"
+    fi
+    ln -sf $root/tools/* $bindir
 
     if ! grep -q "$startLine" "$configFile";then
         echo "$startLine" >> "$configFile"
@@ -156,12 +153,8 @@ uninstall(){
             fi
             ;;
     esac
-    # runAsRoot rm $globalrc
-    # runAsRoot rm /usr/local/bin/tools
     rm -rf $shellrc
     rm -rf $shellrcd
-    rm -rf $tools
-    # runAsRoot "rm -rf /etc/shell-header.sh"
 
     sed -ibak -e "/$startLine/,/$endLine/ d" "$configFile"
 }
