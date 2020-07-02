@@ -89,9 +89,6 @@ if [ ! -d $home/.bin ];then
     echo "mkdir $home/.bin"
     mkdir $home/.bin
 fi
-#3. cp lctl (TODO update lctl)
-echo "cp lctl to $home/.bin"
-cp lctl $home/.bin
 #TODO unset proxy
 
 #4. install homebrew(--needed)

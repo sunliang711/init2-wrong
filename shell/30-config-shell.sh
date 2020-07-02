@@ -125,7 +125,7 @@ install(){
 }
 
 rmbin(){
-    for f in $bindir/*;do
+    for f in $(find $bindir -mindepth 1);do
         local realdirpath=$(readlink $f | xargs dirname)
         # echo "$f -> $realdirpath"
         if [ "$realdirpath" = "$root/tools" ];then
