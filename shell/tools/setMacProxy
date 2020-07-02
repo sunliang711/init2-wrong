@@ -12,6 +12,7 @@ green=$(tput setaf 2)
 yellow=$(tput setaf 3)
 blue=$(tput setaf 4)
 cyan=$(tput setaf 5)
+bold=$(tput bold)
 reset=$(tput sgr0)
 runAsRoot(){
     cmd="$@"
@@ -54,18 +55,19 @@ msg(){
 
 usage(){
     cat<<-EOF
-	Usage: $(basename $0) CMD
+	Usage: $(basename $0) ${bold}CMD${reset}
 
-		CMD:
-		    http    [-h <host>] [-u <user> -p <password> ] <port>
-		    https   [-h <host>] [-u <user> -p <password> ] <port>
-		    socks   [-h <host>] [-u <user> -p <password> ] <port>
+		${bold}CMD${reset}:
+		    ${green}http${reset}    [-h <host>] [-u <user> -p <password> ] <port>
+		    ${green}https${reset}   [-h <host>] [-u <user> -p <password> ] <port>
+		    ${green}socks${reset}   [-h <host>] [-u <user> -p <password> ] <port>
 
-		    pac     [upstream:default: localhost:1080] [protocol: default: SOCKS5]
-		    unset   [http | https | socks | pac] (empty for all)
+		    ${green}list${reset} | ${green}status${reset}
 
-		    editPac
-		    list|status
+		    ${green}unset${reset} | ${green}clear${reset}   [http | https | socks | pac] (empty for all)
+
+		    pac     [upstream:default: localhost:1080] [protocol: default: SOCKS5] <${bold}Deprecated!!${reset}>
+		    editPac <${bold}Deprecated!!${reset}>
 
 	EOF
     exit 1
@@ -191,7 +193,7 @@ unsetPac(){
     rm pacUpstream 2>/dev/null
 }
 
-unset(){
+clearset(){
     typ=${1}
     if [ -z "$typ" ];then
         unsetHttpProxy
@@ -291,15 +293,15 @@ case $cmd in
     socks)
         setSocksProxy "$@"
         ;;
-    pac)
-        setPac "$@"
+    # pac)
+    #     setPac "$@"
+    #     ;;
+    unset|clear)
+        clearset "$@"
         ;;
-    unset)
-        unset "$@"
-        ;;
-    editPac)
-        editPac "$@"
-        ;;
+    # editPac)
+    #     editPac "$@"
+    #     ;;
     list|status)
         list "$@"
         ;;
