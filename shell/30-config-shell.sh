@@ -124,6 +124,16 @@ install(){
 
 }
 
+rmbin(){
+    for f in $bindir/*;do
+        local realdirpath=$(readlink $f | xargs dirname)
+        # echo "$f -> $realdirpath"
+        if [ "$realdirpath" = "$root/tools" ];then
+            rm -rf $f
+        fi
+    done
+}
+
 uninstall(){
     local type=${1}
     if [ -z "$type" ];then
@@ -155,6 +165,7 @@ uninstall(){
     esac
     rm -rf $shellrc
     rm -rf $shellrcd
+    rmbin
 
     sed -ibak -e "/$startLine/,/$endLine/ d" "$configFile"
 }
