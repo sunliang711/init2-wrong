@@ -56,6 +56,10 @@ function runAsRoot(){
 ###############################################################################
 # TODO
 install(){
+    if ! command -v logrotate >/dev/null 2>&1;then
+        echo "Need logrotate installed!"
+        exit 1
+    fi
     local defaultDest=$home/.logrotate
     local dest=${1:-$defaultDest}
     local confDir=conf.d
@@ -115,10 +119,10 @@ EOF2
     <true/>
 
     <!--
-        start job every 60 seconds
+        start job every 300 seconds
     -->
     <key>StartInterval</key>
-    <integer>5</integer>
+    <integer>300</integer>
 
     <!--
         crontab like job schedular

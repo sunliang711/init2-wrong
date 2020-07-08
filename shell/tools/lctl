@@ -80,6 +80,12 @@ unload(){
     launchctl unload -w "$agentfullname"
 }
 
+reload(){
+    agentname $1
+    launchctl unload -w "$agentfullname"
+    launchctl load -w "$agentfullname"
+}
+
 start(){
     agentname $1
     launchctl start "$agentfullname"
