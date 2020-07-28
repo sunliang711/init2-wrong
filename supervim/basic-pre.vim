@@ -54,6 +54,7 @@ set clipboard=unnamed
 nnoremap j gj
 nnoremap k gk
 " nnoremap ; :
+nnoremap <c-g> <c-w>
 
 vnoremap <c-y> "+y
 nnoremap <c-p> "+p
@@ -117,20 +118,20 @@ if has('nvim')
     "允许光标变化
     "has bug
     " let $NVIM_TUI_ENABLE_CURSOR_SHAPE = 1
-    nnoremap <silent> <leader>e :tab e ~/.config/nvim/init.vim<CR>
-    nnoremap <silent> <leader>c :tab e ~/.config/nvim/basic-pre.vim<CR>
+    nnoremap <silent> <leader>ca :tab e ~/.config/nvim/init.vim<CR>
+    nnoremap <silent> <leader>cb :tab e ~/.config/nvim/basic-pre.vim<CR>
 else
     " when vim version is 7.4, v:version is 704
     if v:version >= 704
         if filereadable(expand('~/.vim/vimrc'))
-            nnoremap <silent> <leader>e :tab e ~/.vim/vimrc<CR>
+            nnoremap <silent> <leader>ca :tab e ~/.vim/vimrc<CR>
         else
-            nnoremap <silent> <leader>e :tab e ~/.vimrc<CR>
+            nnoremap <silent> <leader>ca :tab e ~/.vimrc<CR>
         endif
     else
-        nnoremap <silent> <leader>e :tab e ~/.vimrc<CR>
+        nnoremap <silent> <leader>ca :tab e ~/.vimrc<CR>
     endif
-    nnoremap <silent> <leader>c :tab e ~/.vim/basic-pre.vim<CR>
+    nnoremap <silent> <leader>cb :tab e ~/.vim/basic-pre.vim<CR>
 endif
 
 
