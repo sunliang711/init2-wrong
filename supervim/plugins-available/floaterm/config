@@ -13,6 +13,6 @@ endif
 "nnoremap <silent> <F7>  :FloatermToggle<CR>
 "tnoremap <silent> <F7>  <C-\><C-n>:FloatermToggle<CR>
 
-inoremap <silent> <c-t>7  <Esc>:FloatermToggle<CR>
-nnoremap <silent> <c-t>7  :FloatermToggle<CR>
-tnoremap <silent> <c-t>7  <C-\><C-n>:FloatermToggle<CR>
+inoremap <silent> <c-l>7  <Esc>:FloatermToggle<CR>
+nnoremap <silent> <c-l>7  :FloatermToggle<CR>
+tnoremap <silent> <c-l>7  <C-\><C-n>:FloatermToggle<CR>

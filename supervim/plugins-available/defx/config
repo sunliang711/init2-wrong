@@ -1,4 +1,4 @@
-map <silent> <c-t>8 :Defx<CR>
+map <silent> <c-l>8 :Defx<CR>
 " Avoid the white space highting issue
 " autocmd FileType defx match ExtraWhitespace /^^/
 " Keymap in defx
