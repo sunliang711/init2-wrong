@@ -86,7 +86,6 @@ function _enable(){
     update-grub
 
     if ! grep -q "$begin" $modulesFile;then
-    echo "xxx"
     cat<<EOF>>$modulesFile
 $begin
 vfio
