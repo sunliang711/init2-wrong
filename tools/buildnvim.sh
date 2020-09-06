@@ -64,7 +64,7 @@ function need(){
 }
 
 build(){
-    need cmake unzip pkg-config git libtool gettext
+    need cmake automake unzip pkg-config git libtool gettext
     cd /tmp
     git clone --depth 1 https://github.com/neovim/neovim
     cd neovim
