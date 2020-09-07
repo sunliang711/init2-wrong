@@ -59,6 +59,7 @@ install(){
     ~/.fzf/install
 
     if ! grep -q '#BEGIN FZF function' ~/.zshrc;then
+        echo "add source $(pwd)/fzffunction.sh in .zshrc"
         cat<<-EOF>>~/.zshrc
 		#BEGIN FZF function
 		source $(pwd)/fzffunctions.sh
@@ -67,6 +68,7 @@ install(){
     fi
 
     if ! grep -q '#BEGIN FZF function' ~/.bashrc;then
+        echo "add source $(pwd)/fzffunction.sh in .bashrc"
         cat<<-EOF>>~/.bashrc
 		#BEGIN FZF function
 		source $(pwd)/fzffunctions.sh
