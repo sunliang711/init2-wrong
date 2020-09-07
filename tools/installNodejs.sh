@@ -55,9 +55,17 @@ function runAsRoot(){
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
 # TODO
-version=12.16.1
-    https://source711.oss-cn-shanghai.aliyuncs.com/nodejs/12.16.1/node-v12.16.1-linux-x64.tar.xz
+usage(){
+    cat<<EOF
+usage:
+    $(basename $0) install [version]
+    $(basename $0) uninstall [version]
+EOF
+}
+
+defaultVersion=12.16.1
 install(){
+    version=${1:-$defaultVersion}
     dest=$HOME/.app/nodejs/$version
     if [ ! -d $dest ];then
         mkdir -p $dest
@@ -84,6 +92,7 @@ install(){
 }
 
 uninstall(){
+    version=${1:-$defaultVersion}
     dest=$HOME/.app/nodejs/$version
     if [ -d $dest ];then
         echo "Remove $dest"
