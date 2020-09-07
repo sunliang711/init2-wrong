@@ -55,9 +55,13 @@ function runAsRoot(){
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
 # TODO
-version=1.13.8
-dest=$HOME/.app/go/$version
+defaultVersion=1.13.8
+prefix=$HOME/.app/go
+
 install(){
+    version=${1:-$defaultVersion}
+    dest=$HOME/.app/go/$version
+
     if [ ! -d $dest ];then
         mkdir -p $dest
     fi
@@ -77,17 +81,27 @@ install(){
     fi
 
     tar -C $dest -xvf $name
-    echo "go$version has been installed to $dest, add it to PATH manually"
+    echo "go$version has been installed to $dest, add $dest/go/bin to PATH manually"
 
     cd -
 
 }
 
 uninstall(){
+    version=${1:-$defaultVersion}
+    dest=$HOME/.app/go/$version
+
     if [ -d $dest ];then
         echo "remove $dest..."
         /bin/rm -rf $dest && echo "Done."
     fi
+}
+
+usage(){
+    cat<<EOF
+    $(basename $0) install [version]
+    $(basename $0) uninstall [version]
+EOF
 }
 
 
