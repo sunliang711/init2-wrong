@@ -54,6 +54,12 @@ function runAsRoot(){
 # write your code below (just define function[s])
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
+function need(){
+    if ! command -v $1 >/dev/null 2>&1;then
+        echo "need $1"
+        exit 1
+    fi
+}
 usage(){
     cat<<EOF
     $(basename $0) install [version]
@@ -66,6 +72,8 @@ defaultVersion=1.13.8
 prefix=$HOME/.app/go
 
 install(){
+    need curl
+    need tar
     version=${1:-$defaultVersion}
     dest=$HOME/.app/go/$version
 

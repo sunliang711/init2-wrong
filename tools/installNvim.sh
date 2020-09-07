@@ -55,9 +55,17 @@ function runAsRoot(){
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
 # TODO
+function need(){
+    if ! command -v $1 >/dev/null 2>&1;then
+        echo "need $1"
+        exit 1
+    fi
+}
 version=0.4.4
 dest=$HOME/.app/nvim/$version
 install(){
+    need curl
+    need tar
     if [ ! -d $dest ];then
         mkdir -p $dest
     fi
