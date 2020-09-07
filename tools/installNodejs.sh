@@ -87,7 +87,7 @@ install(){
         curl -LO $nodeURL || { echo "Download error!"; exit 1; }
     fi
 
-    tar -C $dest -xvf $name && echo "nodejs has been installed to $dest add $dest/name/bin to PATH manually."; 
+    tar -C $dest -xvf $name.tar.xz && echo "nodejs has been installed to $dest add $dest/name/bin to PATH manually."; 
     cd -
 }
 
