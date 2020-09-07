@@ -55,18 +55,19 @@ function runAsRoot(){
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
 # TODO
-dest=$HOME/.app/nvim
+version=0.4.4
+dest=$HOME/.app/nvim/$version
 install(){
     if [ ! -d $dest ];then
         mkdir -p $dest
     fi
     case $(uname) in
         Linux)
-            local nvimURL="https://source711.oss-cn-shanghai.aliyuncs.com/neovim/0.4.4/nvim-linux64.tar.gz"
+            local nvimURL="https://source711.oss-cn-shanghai.aliyuncs.com/neovim/$version/nvim-linux64.tar.gz"
             local name=nvim-linux64
             ;;
         Darwin)
-            local nvimURL="https://source711.oss-cn-shanghai.aliyuncs.com/neovim/0.4.4/nvim-macos.tar.gz"
+            local nvimURL="https://source711.oss-cn-shanghai.aliyuncs.com/neovim/$version/nvim-macos.tar.gz"
             local name=nvim-macos
             ;;
     esac
@@ -77,7 +78,7 @@ install(){
 
     tar -C $dest -xvf ${name}.tar.gz
 
-    echo "nvim has been installed to $dest,add $dest/bin to PATH manually!"
+    echo "nvim has been installed to $dest,add $dest/$name/bin to PATH manually!"
 }
 
 uninstall(){
