@@ -89,7 +89,7 @@ if command -v git >/dev/null 2>&1;then
     }
     #gpon(){
     #    #add default parameter
-    #    local proxy=${1:-http://localhost:6116}
+    #    local proxy=${1:-http://localhost:6119}
     #    # local proxy=${1:-socks5://localhost:1080}
 
     #    git config --global http.proxy $proxy
@@ -175,7 +175,7 @@ macproxy(){
 }
 
 proxyon2(){
-    local defaultProxy="http://localhost:6116"
+    local defaultProxy="http://localhost:6119"
     local proxy=${1}
     if [ -z "${proxy}" ];then
         case $(uname) in
@@ -225,7 +225,7 @@ proxyon2(){
 }
 
 function proxyon_(){
-    local defaultProxy="http://localhost:6116"
+    local defaultProxy="http://localhost:6119"
     local proxy=${1}
     if [ -z "$proxy" ];then
         echo "Not specify http proxy as parameter,use default: $defaultProxy"
@@ -321,10 +321,10 @@ function proxyoff_(){
 }
 
 proxystatus(){
-    # if declare -x | grep 'http_proxy="\{,1\}127.0.0.1:6116' >/dev/null 2>&1;then
+    # if declare -x | grep 'http_proxy="\{,1\}127.0.0.1:6119' >/dev/null 2>&1;then
     if declare -x | grep '_proxy=' >/dev/null 2>&1;then
         echo "http proxy is set:"
-        #declare -x |grep 6116
+        #declare -x |grep 6119
         declare -x |grep -i '_proxy'
     else
         echo "[http] proxy is off"

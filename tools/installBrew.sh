@@ -51,25 +51,12 @@ function runAsRoot(){
     fi
 }
 ###############################################################################
-        # write your code below (just define function[s])
+# write your code below (just define function[s])
+# function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
 # TODO
-function need(){
-    for cmd in "$@";do
-        if ! command -v $cmd >/dev/null 2>&1;then
-            echo "Need '$cmd'"
-            exit 1
-        fi
-    done
-}
-
-build(){
-    need cmake automake unzip pkg-config git libtoolize gettext g++
-    cd /tmp
-    git clone --depth 1 https://github.com/neovim/neovim
-    cd neovim
-    make CMAKE_BUILD_TYPE=Release CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/.neovim"
-    make install && echo "nvim is installed in $HOME/.neovim"
+install(){
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 }
 
 
@@ -83,8 +70,38 @@ Usage: $(basename $0) ${bold}CMD${reset}
 
 ${bold}CMD${reset}:
 EOF2
-    perl -lne 'print "\t$1" if /^\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE})
+    perl -lne 'print "\t$1" if /^\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v runAsRoot
 }
+function loadENV(){
+    if [ -z "$INIT_HTTP_PROXY" ];then
+        echo "INIT_HTTP_PROXY is empty"
+        echo -n "Enter http proxy: (if you need) "
+        read INIT_HTTP_PROXY
+    fi
+    if [ -n "$INIT_HTTP_PROXY" ];then
+        echo "set http proxy to $INIT_HTTP_PROXY"
+        export http_proxy=$INIT_HTTP_PROXY
+        export https_proxy=$INIT_HTTP_PROXY
+        export HTTP_PROXY=$INIT_HTTP_PROXY
+        export HTTPS_PROXY=$INIT_HTTP_PROXY
+        git config --global http.proxy $INIT_HTTP_PROXY
+        git config --global https.proxy $INIT_HTTP_PROXY
+    else
+        echo "No use http proxy"
+    fi
+}
+
+function unloadENV(){
+    if [ -n "$https_proxy" ];then
+        unset http_proxy
+        unset https_proxy
+        unset HTTP_PROXY
+        unset HTTPS_PROXY
+        git config --global --unset-all http.proxy
+        git config --global --unset-all https.proxy
+    fi
+}
+
 
 case "$1" in
      ""|-h|--help|help)
