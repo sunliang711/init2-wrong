@@ -65,7 +65,7 @@ install(){
     cp ${dest} ${dest}.bak-$(date +%FT%T)
 
     url=http://mirrors.163.com
-    codename="$(lsb_release -a 2 >/dev/null | grep -i 'codename' | awk '{print $2}')"
+    codename=$(grep -i 'version_codename' /etc/os-release | awk -F= '{print $2}')
     if [ -z $codename ];then
         echo "Not find codename"
         exit 1
