@@ -55,6 +55,9 @@ runAsRoot(){
 ###############################################################################
 # TODO
 install(){
+    #install binary
+    go get -u github.com/junegunn/fzf || { echo "install fzf error!"; exit 1; }
+
     # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
     git clone --depth 1 https://gitee.com/quick-source/fzf.git ~/.fzf
     ~/.fzf/install
