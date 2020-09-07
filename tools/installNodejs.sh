@@ -73,7 +73,7 @@ install(){
     case $(uname) in
         Linux)
             local nodeURL=https://source711.oss-cn-shanghai.aliyuncs.com/nodejs/${version}/node-v${version}-linux-x64.tar.xz
-            local name=node-v{version-linux-x64}
+            local name=node-v${version}-linux-x64
             ;;
         Darwin)
             echo "not support."
