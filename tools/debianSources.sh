@@ -72,14 +72,14 @@ install(){
     fi
 
     cat<<EOF>${dest}
-deb url/debian/ ${codename} main non-free contrib
-deb url/debian/ ${codename}-updates main non-free contrib
-deb url/debian/ ${codename}-backports main non-free contrib
-deb-src url/debian/ ${codename} main non-free contrib
-deb-src url/debian/ ${codename}-updates main non-free contrib
-deb-src url/debian/ ${codename}-backports main non-free contrib
-deb url/debian-security/ ${codename}/updates main non-free contrib
-deb-src url/debian-security/ ${codename}/updates main non-free contrib
+deb ${url}/debian/ ${codename} main non-free contrib
+deb ${url}/debian/ ${codename}-updates main non-free contrib
+deb ${url}/debian/ ${codename}-backports main non-free contrib
+deb-src ${url}/debian/ ${codename} main non-free contrib
+deb-src ${url}/debian/ ${codename}-updates main non-free contrib
+deb-src ${url}/debian/ ${codename}-backports main non-free contrib
+deb ${url}/debian-security/ ${codename}/updates main non-free contrib
+deb-src ${url}/debian-security/ ${codename}/updates main non-free contrib
 EOF
 }
 
