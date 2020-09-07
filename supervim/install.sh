@@ -229,6 +229,13 @@ EOF
 exit 1
 }
 
+cat<<EOF
+Note:   install nodejs pip3 golang fzf when need
+        setup pip3 source and npm source when need.
+        press ${red}<C-c>${reset} to break if you haven't installed above
+EOF
+read cont
+
 ## begin
 font=0
 origin=0
