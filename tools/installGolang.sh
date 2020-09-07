@@ -54,6 +54,13 @@ function runAsRoot(){
 # write your code below (just define function[s])
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
+usage(){
+    cat<<EOF
+    $(basename $0) install [version]
+    $(basename $0) uninstall [version]
+EOF
+}
+
 # TODO
 defaultVersion=1.13.8
 prefix=$HOME/.app/go
@@ -71,13 +78,15 @@ install(){
             ;;
         Darwin)
             goURL=https://dl.google.com/go/go${version}.darwin-amd64.pkg
+            echo "Download golang to ~/Downlads"
             cd ~/Downloads && curl -LO $goURL && echo "download go in ~/Downloads" && exit 0;
             ;;
     esac
     cd /tmp
     local name=go${version}.linux-amd64.tar.gz
     if [ ! -e $name ];then
-        curl -LO $goURL || { echo "download $name error"; exit 1; }
+        echo "Download $name to /tmp..."
+        curl -LO $goURL || { echo "Download $name error"; exit 1; }
     fi
 
     tar -C $dest -xvf $name
@@ -95,13 +104,6 @@ uninstall(){
         echo "remove $dest..."
         /bin/rm -rf $dest && echo "Done."
     fi
-}
-
-usage(){
-    cat<<EOF
-    $(basename $0) install [version]
-    $(basename $0) uninstall [version]
-EOF
 }
 
 
