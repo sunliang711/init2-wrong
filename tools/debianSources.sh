@@ -64,17 +64,22 @@ install(){
     fi
     cp ${dest} ${dest}.bak-$(date +%FT%T)
 
+    url=http://mirrors.163.com
     codename="$(lsb_release -a 2 >/dev/null | grep -i 'codename' | awk '{print $2}')"
+    if [ -z $codename ];then
+        echo "Not find codename"
+        exit 1
+    fi
 
     cat<<EOF>${dest}
-deb http://mirrors.163.com/debian/ ${codename} main non-free contrib
-deb http://mirrors.163.com/debian/ ${codename}-updates main non-free contrib
-deb http://mirrors.163.com/debian/ ${codename}-backports main non-free contrib
-deb-src http://mirrors.163.com/debian/ ${codename} main non-free contrib
-deb-src http://mirrors.163.com/debian/ ${codename}-updates main non-free contrib
-deb-src http://mirrors.163.com/debian/ ${codename}-backports main non-free contrib
-deb http://mirrors.163.com/debian-security/ ${codename}/updates main non-free contrib
-deb-src http://mirrors.163.com/debian-security/ ${codename}/updates main non-free contrib
+deb url/debian/ ${codename} main non-free contrib
+deb url/debian/ ${codename}-updates main non-free contrib
+deb url/debian/ ${codename}-backports main non-free contrib
+deb-src url/debian/ ${codename} main non-free contrib
+deb-src url/debian/ ${codename}-updates main non-free contrib
+deb-src url/debian/ ${codename}-backports main non-free contrib
+deb url/debian-security/ ${codename}/updates main non-free contrib
+deb-src url/debian-security/ ${codename}/updates main non-free contrib
 EOF
 }
 
