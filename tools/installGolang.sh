@@ -76,11 +76,18 @@ install(){
         curl -LO $goURL || { echo "download $name error"; exit 1; }
     fi
 
-    tar -C $dest xvf $name
+    tar -C $dest -xvf $name
     echo "go$version has been installed to $dest, add it to PATH manually"
 
     cd -
 
+}
+
+uninstall(){
+    if [ -d $dest ];then
+        echo "remove $dest..."
+        /bin/rm -rf $dest && echo "Done."
+    fi
 }
 
 
