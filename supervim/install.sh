@@ -15,8 +15,25 @@ fi
 installRootDir="$(cd $(dirname $rpath) && pwd)"
 cd "$installRootDir"
 
+usage(){
+    cat<<EOF
+Usage: $(basename $0) ${bold}CMD${reset}
+
+${bold}CMD${reset}:
+    install   [options] <vim/nvim>
+    uninstall [options] <vim/nvim>
+    font
+
+options:
+        -f              install nerd font used by color theme
+        -o              install plugin from original source(github.com),instead of gitee.com
+        -u              update basic setting
+EOF
+exit 1
+}
+
 needCmd(){
-    cmd=$1
+    local cmd=$1
     if [[ -n $cmd ]];then
         if ! command -v $cmd >/dev/null 2>&1;then
             echo "Error: Need cmd \"$cmd\"!!"
@@ -38,6 +55,72 @@ installDir(){
 
 
 install(){
+    font=0
+    origin=0
+    vimroot=
+    cfg=
+    update=0
+
+
+    while getopts ":fou" opt;do
+        case $opt in
+            f)
+                font=1
+                ;;
+            o)
+                origin=1
+                ;;
+            u)
+                update=1
+                ;;
+            :)
+                echo "Option '$OPTARG' need argument"
+                exit 1
+                ;;
+            \?)
+               echo "Unknown option: '$OPTARG'"
+                exit 1
+                ;;
+        esac
+    done
+    shift $((OPTIND-1))
+
+    needCmd curl
+
+    VIM=$1
+    case $VIM in
+        nvim)
+            needCmd nvim
+            vimroot="$HOME/.config/nvim"
+            cfg="$vimroot/init.vim"
+            ;;
+        vim)
+            needCmd vim
+            vimVersion=$(vim --version | head -1 | awk '{print $5}')
+            vimroot="$HOME/.vim"
+            major=$(echo $vimVersion | awk -F. '{print $1}')
+            minor=$(echo $vimVersion | awk -F. '{print $2}')
+            if [[ -z $major ]] || [[ -z $minor ]];then
+                echo "Cannot get vim version!"
+                exit 1
+            fi
+            if (( $major == 7 && $minor >= 4 )) || (( $major > 7 ));then
+                cfg="$vimroot/vimrc"
+            else
+                cfg="$HOME/.vimrc"
+            fi
+            ;;
+        *)
+            echo "Choose vim or nvim as argument."
+            usage
+            ;;
+    esac
+
+    if (( $update==1 ));then
+        echo "update basic-pre.vim..."
+        cp ./basic-pre.vim $vimroot/
+        exit 0
+    fi
     if [ "$font" -eq "1" ];then
         bash ./installFont.sh || { echo "Install font error."; }
     fi
@@ -217,92 +300,23 @@ cfgEOFx
 
 }
 
-usage(){
-    cat<<EOF
-Usage: $(basename $0) [options] <vim/nvim>
-
-options:
-        -f              install nerd font used by color theme
-        -o              install plugin from original source(github.com),instead of gitee.com
-        -u              update basic setting
-EOF
-exit 1
+uninstall(){
+    echo "TODO"
 }
 
-cat<<EOF
-Note:   install nodejs pip3 golang fzf when need
-        setup pip3 source and npm source when need.
-        press ${red}<C-c>${reset} to break if you haven't installed above
-EOF
-read cont
-
-## begin
-font=0
-origin=0
-vimroot=
-cfg=
-update=0
-
-
-while getopts ":fou" opt;do
-    case $opt in
-        f)
-            font=1
-            ;;
-        o)
-            origin=1
-            ;;
-        u)
-            update=1
-            ;;
-        :)
-            echo "Option '$OPTARG' need argument"
-            exit 1
-            ;;
-        \?)
-           echo "Unknown option: '$OPTARG'"
-            exit 1
-            ;;
-    esac
-done
-shift $((OPTIND-1))
-
-needCmd curl
-
-VIM=$1
-case $VIM in
-    nvim)
-        needCmd nvim
-        vimroot="$HOME/.config/nvim"
-        cfg="$vimroot/init.vim"
+cmd=$1
+shift
+case $cmd in
+    install)
+        install "$@"
         ;;
-    vim)
-        needCmd vim
-        vimVersion=$(vim --version | head -1 | awk '{print $5}')
-        vimroot="$HOME/.vim"
-        major=$(echo $vimVersion | awk -F. '{print $1}')
-        minor=$(echo $vimVersion | awk -F. '{print $2}')
-        if [[ -z $major ]] || [[ -z $minor ]];then
-            echo "Cannot get vim version!"
-            exit 1
-        fi
-        if (( $major == 7 && $minor >= 4 )) || (( $major > 7 ));then
-            cfg="$vimroot/vimrc"
-        else
-            cfg="$HOME/.vimrc"
-        fi
+    uninstall)
+        uninstall "$@"
+        ;;
+    font)
+        bash ./installFont.sh
         ;;
     *)
-        echo "Choose vim or nvim as argument."
         usage
         ;;
 esac
-# echo "update: $update"
-
-if (( $update==1 ));then
-    echo "update basic-pre.vim..."
-    cp ./basic-pre.vim $vimroot/
-    exit 0
-fi
-
-install
