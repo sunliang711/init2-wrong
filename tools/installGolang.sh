@@ -86,8 +86,8 @@ install(){
             ;;
         Darwin)
             goURL=https://dl.google.com/go/go${version}.darwin-amd64.pkg
-            echo "Download golang to ~/Downlads"
-            cd ~/Downloads && curl -LO $goURL && echo "download go in ~/Downloads" && exit 0;
+            echo "Download golang to ~/Downlads from $goURL"
+            cd $home/Downloads && curl -LO $goURL && echo "download go in ~/Downloads" && exit 0;
             ;;
     esac
     cd /tmp
@@ -97,7 +97,9 @@ install(){
         curl -LO $goURL || { echo "Download $name error"; exit 1; }
     fi
 
-    tar -C $dest -xvf $name
+    cmd="tar -C $dest -xvf $name"
+    echo "$cmd ..."
+    bash -c "$cmd >/dev/null" && echo "Done" || { echo "Extract $name failed."; exit 1; }
     echo "go$version has been installed to $dest, add $dest/go/bin to PATH manually"
 
     cd -

@@ -84,9 +84,9 @@ install(){
         curl -LO "$nvimURL"
     fi
 
-    tar -C $dest -xvf ${name}.tar.gz
-
-    echo "nvim has been installed to $dest,add $dest/$name/bin to PATH manually!"
+    cmd="tar -C $dest -xvf ${name}.tar.gz"
+    echo "$cmd ..."
+    bash -c "$cmd >/dev/null" && echo "nvim has been installed to $dest,add $dest/$name/bin to PATH manually!" || { echo "extract $name.tar.gz failed."; exit 1; }
 }
 
 uninstall(){
