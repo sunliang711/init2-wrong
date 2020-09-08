@@ -98,7 +98,7 @@ install(){
     cmd="tar -C $dest -xvf $name.tar.xz"
     echo "$cmd ..."
     bash -c "$cmd >/dev/null" && echo "nodejs has been installed to $dest add $dest/$name/bin to PATH manually." || { echo "extract $name.tar.xz failed"; exit 1; }
-    cd -
+    cd - >/dev/null
 }
 
 uninstall(){

@@ -102,7 +102,7 @@ install(){
     bash -c "$cmd >/dev/null" && echo "Done" || { echo "Extract $name failed."; exit 1; }
     echo "go$version has been installed to $dest, add $dest/go/bin to PATH manually"
 
-    cd -
+    cd - >/dev/null
 
 }
 
