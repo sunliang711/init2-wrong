@@ -72,7 +72,6 @@ bashrc="${home}/.bashrc"
 zshrc="${home}/.zshrc"
 shellrc="$home/.shellrc"
 shellrcd="$home/.shellrc.d"
-bindir="$home/.bin"
 
 install(){
     local type=${1}
@@ -109,10 +108,6 @@ install(){
 
     ln -sf $root/shellrc $shellrc
     ln -sf $root/shellrc.d $shellrcd
-    if [ ! -d "$bindir" ];then
-        mkdir "$bindir"
-    fi
-    ln -sf $root/tools/* $bindir
 
     if ! grep -q "$startLine" "$configFile";then
         echo "$startLine" >> "$configFile"
@@ -122,16 +117,8 @@ install(){
         echo "Done."
     fi
 
-}
+    echo "append_path $root/tools" >> $root/shellrc.d/local
 
-rmbin(){
-    for f in $(find $bindir -mindepth 1);do
-        local realdirpath=$(readlink $f | xargs dirname)
-        # echo "$f -> $realdirpath"
-        if [ "$realdirpath" = "$root/tools" ];then
-            rm -rf $f
-        fi
-    done
 }
 
 uninstall(){
@@ -165,7 +152,6 @@ uninstall(){
     esac
     rm -rf $shellrc
     rm -rf $shellrcd
-    rmbin
 
     sed -ibak -e "/$startLine/,/$endLine/ d" "$configFile"
 }
