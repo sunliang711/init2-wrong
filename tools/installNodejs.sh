@@ -55,6 +55,12 @@ function runAsRoot(){
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
 # TODO
+function need(){
+    if ! command -v $1 >/dev/null 2>&1;then
+        echo "need $1"
+        exit 1
+    fi
+}
 usage(){
     cat<<EOF
 usage:
@@ -65,6 +71,8 @@ EOF
 
 defaultVersion=12.16.1
 install(){
+    need curl
+    need tar
     version=${1:-$defaultVersion}
     dest=$HOME/.app/nodejs/$version
     if [ ! -d $dest ];then
@@ -87,8 +95,10 @@ install(){
         curl -LO $nodeURL || { echo "Download error!"; exit 1; }
     fi
 
-    tar -C $dest -xvf $name.tar.xz && echo "nodejs has been installed to $dest add $dest/$name/bin to PATH manually."; 
-    cd -
+    cmd="tar -C $dest -xvf $name.tar.xz"
+    echo "$cmd ..."
+    bash -c "$cmd >/dev/null" && echo "nodejs has been installed to $dest add $dest/$name/bin to PATH manually." || { echo "extract $name.tar.xz failed"; exit 1; }
+    cd - >/dev/null
 }
 
 uninstall(){

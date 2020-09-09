@@ -55,7 +55,13 @@ runAsRoot(){
 ###############################################################################
 # TODO
 install(){
-    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    #install binary
+    cmd="go get -u github.com/junegunn/fzf"
+    echo "$cmd ..."
+    bash -c "$cmd > /dev/null" && { echo "Done"; } || { echo "Install fzf error!"; exit 1; }
+
+    # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    git clone --depth 1 https://gitee.com/quick-source/fzf.git ~/.fzf
     ~/.fzf/install
 
     if ! grep -q '#BEGIN FZF function' ~/.zshrc;then
@@ -96,7 +102,7 @@ Usage: $(basename $0) ${bold}CMD${reset}
 
 ${bold}CMD${reset}:
 EOF2
-    perl -lne 'print "\t$2" if /^(function)?\s*?(\w+)\(\)\{$/' $(basename ${BASH_SOURCE})
+    perl -lne 'print "\t$1" if /^\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v runAsRoot
 }
 
 case "$1" in

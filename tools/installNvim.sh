@@ -55,9 +55,17 @@ function runAsRoot(){
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
 # TODO
+function need(){
+    if ! command -v $1 >/dev/null 2>&1;then
+        echo "need $1"
+        exit 1
+    fi
+}
 version=0.4.4
 dest=$HOME/.app/nvim/$version
 install(){
+    need curl
+    need tar
     if [ ! -d $dest ];then
         mkdir -p $dest
     fi
@@ -76,9 +84,9 @@ install(){
         curl -LO "$nvimURL"
     fi
 
-    tar -C $dest -xvf ${name}.tar.gz
-
-    echo "nvim has been installed to $dest,add $dest/$name/bin to PATH manually!"
+    cmd="tar -C $dest -xvf ${name}.tar.gz"
+    echo "$cmd ..."
+    bash -c "$cmd >/dev/null" && echo "nvim has been installed to $dest,add $dest/$name/bin to PATH manually!" || { echo "extract $name.tar.gz failed."; exit 1; }
 }
 
 uninstall(){

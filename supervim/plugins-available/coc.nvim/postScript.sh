@@ -50,7 +50,7 @@ if ! command -v clangd >/dev/null 2>&1;then
 fi
 
 echo "${cyan}Install coc-snippets..."
-$VIM -c 'CocInstall coc-snippets' -c 'qall!'
+echo "please run $VIM -c 'CocInstall coc-snippets' -c 'qall!' manaually!"
 
 echo "${green}Recommend${reset}: install coc-python plugin by 'CocInstall coc-python' if you need."
 echo "${green}Recommend${reset}: install coc-rls plugin by 'CocInstall coc-rls' if you need."

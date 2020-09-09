@@ -54,6 +54,12 @@ function runAsRoot(){
 # write your code below (just define function[s])
 # function with 'function' is hidden when run help, without 'function' is show
 ###############################################################################
+function need(){
+    if ! command -v $1 >/dev/null 2>&1;then
+        echo "need $1"
+        exit 1
+    fi
+}
 usage(){
     cat<<EOF
     $(basename $0) install [version]
@@ -66,6 +72,8 @@ defaultVersion=1.13.8
 prefix=$HOME/.app/go
 
 install(){
+    need curl
+    need tar
     version=${1:-$defaultVersion}
     dest=$HOME/.app/go/$version
 
@@ -78,8 +86,8 @@ install(){
             ;;
         Darwin)
             goURL=https://dl.google.com/go/go${version}.darwin-amd64.pkg
-            echo "Download golang to ~/Downlads"
-            cd ~/Downloads && curl -LO $goURL && echo "download go in ~/Downloads" && exit 0;
+            echo "Download golang to ~/Downlads from $goURL"
+            cd $home/Downloads && curl -LO $goURL && echo "download go in ~/Downloads" && exit 0;
             ;;
     esac
     cd /tmp
@@ -89,10 +97,12 @@ install(){
         curl -LO $goURL || { echo "Download $name error"; exit 1; }
     fi
 
-    tar -C $dest -xvf $name
+    cmd="tar -C $dest -xvf $name"
+    echo "$cmd ..."
+    bash -c "$cmd >/dev/null" && echo "Done" || { echo "Extract $name failed."; exit 1; }
     echo "go$version has been installed to $dest, add $dest/go/bin to PATH manually"
 
-    cd -
+    cd - >/dev/null
 
 }
 

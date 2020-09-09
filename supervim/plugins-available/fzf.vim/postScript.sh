@@ -14,6 +14,8 @@ if [ -z "$rpath" ];then
 fi
 thisScriptDir="$(cd $(dirname $rpath) && pwd)"
 
+go get -u github.com/junegunn/fzf || { echo "install fzf failed"; }
+
 # available ENV variables:
     # VIM               which vim? [vim/nvim]
     # vimroot           vim config dir: ~/.config/nvim or ~/.vim
