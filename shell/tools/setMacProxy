@@ -60,6 +60,8 @@ usage(){
 		${bold}CMD${reset}:
 		    ${green}http${reset}    [-h <host>] [-u <user> -p <password> ] <port>
 		    ${green}https${reset}   [-h <host>] [-u <user> -p <password> ] <port>
+		    ${green}all${reset}     [-h <host>] [-u <user> -p <password> ] <port>
+
 		    ${green}socks${reset}   [-h <host>] [-u <user> -p <password> ] <port>
 
 		    ${green}list${reset} | ${green}status${reset}
@@ -292,6 +294,10 @@ case $cmd in
         ;;
     socks)
         setSocksProxy "$@"
+        ;;
+    all)
+        setHttpProxy "$@"
+        setHttpsProxy "$@"
         ;;
     # pac)
     #     setPac "$@"
