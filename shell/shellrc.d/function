@@ -1149,9 +1149,9 @@ function newsh(){
 		if [ -z "$rpath" ];then
 		    rpath=${BASH_SOURCE}
 		fi
-		thisDir="$(cd $(dirname $rpath) && pwd)"
-		cd "$thisDir"
-
+		this="$(cd $(dirname $rpath) && pwd)"
+		cd "$this"
+		
 		user="${SUDO_USER:-$(whoami)}"
 		home="$(eval echo ~$user)"
 		
@@ -1160,9 +1160,9 @@ function newsh(){
 		yellow=$(tput setaf 3)
 		blue=$(tput setaf 4)
 		cyan=$(tput setaf 5)
-        bold=$(tput bold)
+		bold=$(tput bold)
 		reset=$(tput sgr0)
-		function runAsRoot(){
+		function _runAsRoot(){
 		    verbose=0
 		    while getopts ":v" opt;do
 		        case "$opt" in
@@ -1196,26 +1196,37 @@ function newsh(){
 		        sudo sh -c "$cmd"
 		    fi
 		}
+		editor=vi
+		if command -v vim >/dev/null 2>&1;then
+		    editor=vim
+		fi
+		if command -v nvim >/dev/null 2>&1;then
+		    editor=nvim
+		fi
 		###############################################################################
 		# write your code below (just define function[s])
-		# function with 'function' is hidden when run help, without 'function' is show
+		# function is hidden when begin with '_'
 		###############################################################################
 		# TODO
-
-
-
+		
+		em(){
+		    $editor $0
+		}
+		
 		###############################################################################
 		# write your code above
 		###############################################################################
-		function help(){
+		function _help(){
 		    cat<<EOF2
 		Usage: $(basename $0) ${bold}CMD${reset}
-
+		
 		${bold}CMD${reset}:
 		EOF2
-	    perl -lne 'print "\t$1" if /^\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v runAsRoot
+		    # perl -lne 'print "\t$1" if /^\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE})
+		    perl -lne 'print "\t$2" if /^\s*(function)?\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v '^\t_'
 		}
-		function loadENV(){
+		
+		function _loadENV(){
 		    if [ -z "$INIT_HTTP_PROXY" ];then
 		        echo "INIT_HTTP_PROXY is empty"
 		        echo -n "Enter http proxy: (if you need) "
@@ -1234,7 +1245,7 @@ function newsh(){
 		    fi
 		}
 		
-		function unloadENV(){
+		function _unloadENV(){
 		    if [ -n "$https_proxy" ];then
 		        unset http_proxy
 		        unset https_proxy
@@ -1248,7 +1259,7 @@ function newsh(){
 		
 		case "$1" in
 		     ""|-h|--help|help)
-		        help
+		        _help
 		        ;;
 		    *)
 		        "$@"
