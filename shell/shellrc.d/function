@@ -233,16 +233,28 @@ proxyon2(){
 }
 
 function proxyon_(){
-    local defaultProxy="http://localhost:6119"
-    local proxy=${1}
-    if [ -z "$proxy" ];then
-        echo "Not specify http proxy as parameter,use default: $defaultProxy"
-        proxy=$defaultProxy
-    fi
-    #add default parameter
-    echo "set http proxy: $proxy for git pip pip3 when exists"
-    #delete: grep -P can not work on mac
-    #port=$(grep -oP '(?<=listen-address 127.0.0.1:)\d+' /usr/local/share/ss-local/privoxy.config)
+    local host=localhost
+
+    while getopts ":h:" opt;do
+        case $opt in
+            h)
+                host=$OPTARG
+                ;;
+            :)
+                echo "Option '$OPTARG' missing arg"
+                return 1
+                ;;
+            \?)
+                echo "Unkown option '$OPTARG'"
+                return 2
+                ;;
+        esac
+    done
+    shift $(($OPTIND-1))
+    local port=${1:-6119}
+
+    local proxy=http://$host:$port
+
     echoExec "export http_proxy=$proxy"
     echoExec "export https_proxy=$proxy"
     echoExec "export ftp_proxy=$proxy"
