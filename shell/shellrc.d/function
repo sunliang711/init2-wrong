@@ -1255,6 +1255,7 @@ function newsh(){
 		esac
 		EOF
     "$editor" "$filename"
+    chmod +x "$filename"
 }
 
 function newlogrotate(){
