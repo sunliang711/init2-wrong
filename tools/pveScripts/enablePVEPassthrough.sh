@@ -74,6 +74,10 @@ function _enable(){
     fi
     local arch=${1}
 
+    if [ ! -e ${defaultGrubFile}.orig ];then
+        cp ${defaultGrubFile} ${defaultGrubFile}.orig
+    fi
+
     case $arch in
         intel)
             sed -i.bak 's|^\(GRUB_CMDLINE_LINUX_DEFAULT\).*|\1="quiet intel_iommu=on pcie_acs_override=downstream"|' $defaultGrubFile

@@ -66,7 +66,10 @@ install(){
         echo "Not find codename"
         exit 1
     fi
-    mv /etc/apt/sources.list.d/pve-enterprise.list{,.orig}
+    enterpriseFile=/etc/apt/sources.list.d/pve-enterprise.list
+    if [ ! -e "${enterpriseFile}.orig" ];then
+        mv ${enterpriseFile} ${enterpriseFile}.orig
+    fi
     echo "deb http://download.proxmox.wiki/debian/pve $codename pve-no-subscription" >/etc/apt/sources.list.d/pve-install-repo.list
 }
 

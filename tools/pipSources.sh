@@ -1,8 +1,11 @@
 #!/bin/sh
 if ! command -v pip >/dev/null 2>&1;then
-    echo "Not find pip"
-    exit 1
+    echo "Warning: Not find pip"
 fi
+if ! command -v pip3 > /dev/null 2>&1;then
+    echo "Warning: Not find pip3"
+fi
+
 if [ ! -d ~/.pip ];then
       mkdir ~/.pip
 fi
