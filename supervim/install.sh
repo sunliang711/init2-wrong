@@ -55,6 +55,14 @@ installDir(){
 
 
 install(){
+    cat<<EOF
+Note:   install nodejs pip3 golang fzf when need
+        setup pip3 source and npm source when need.
+        press ${red}<C-c>${reset} to break if you haven't installed above
+        press ${red}<Enter>${reset} to continue...
+EOF
+    read cnt
+
     font=0
     origin=0
     vimroot=
