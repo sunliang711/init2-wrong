@@ -7,6 +7,11 @@ fi
 
 nodesFile="/usr/share/perl5/PVE/API2/Nodes.pm"
 
+if [ ! -e $nodesFile ];then
+    echo "Not found $nodesFile, not support your version of pve"
+    exit 1
+fi
+
 if [ ! -e ${nodesFile}.orig ];then
 	cp ${nodesFile}{,.orig}
 fi
@@ -49,7 +54,7 @@ cat<<EOF>xx
 EOF
 
 
-cpuCoreNum=$(grep -c 'processor' /proc/cpuinfo)
+cpuCoreNum=$(grep -c '^processor' /proc/cpuinfo)
 for ((i=0;i<$cpuCoreNum;i++)){
 
 	${xx}cat<<EOF>>xx

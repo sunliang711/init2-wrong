@@ -182,6 +182,37 @@ npmproxyoff(){
     npm config delete registry
 }
 
+aptproxyon(){
+    if ! command -v apt >/dev/null 2>&1;then
+        echo "No apt command found"
+        return 1
+    fi
+    if [ $EUID -ne 0 ];then
+        echo "need root privilege"
+        return 2
+    fi
+    local proxyFile=/etc/apt/apt.conf.d/httpProxy
+    local proxy=${1:-"http://localhost:8000"}
+cat>${proxyFile}<<EOF
+Acquire::http::proxy \"$proxy\";
+Acquire::https::proxy \"$proxy\";
+EOF
+}
+
+aptproxyoff(){
+    if ! command -v apt >/dev/null 2>&1;then
+        echo "No apt command found"
+        return 1
+    fi
+    if [ $EUID -ne 0 ];then
+        echo "need root privilege"
+        return 2
+    fi
+    local proxyFile=/etc/apt/apt.conf.d/httpProxy
+    /bin/rm -rf ${proxyFile}
+
+}
+
 proxyon2(){
     local defaultProxy="http://localhost:6119"
     local proxy=${1}
