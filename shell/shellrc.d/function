@@ -1138,6 +1138,9 @@ function newsh(){
     if command -v vim >/dev/null 2>&1;then
         editor=vim
     fi
+    if command -v nvim >/dev/null 2>&1;then
+        editor=nvim
+    fi
     cat>"$filename" <<-'EOF'
 		#!/bin/bash
 		rpath="$(readlink ${BASH_SOURCE})"
@@ -1218,7 +1221,8 @@ function newsh(){
 		${bold}CMD${reset}:
 		EOF2
 		    # perl -lne 'print "\t$1" if /^\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE})
-		    perl -lne 'print "\t$2" if /^\s*(function)?\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v '^\t_'
+		    # perl -lne 'print "\t$2" if /^\s*(function)?\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | grep -v '^\t_'
+		    perl -lne 'print "\t$2" if /^\s*(function)?\s*(\w+)\(\)\{$/' $(basename ${BASH_SOURCE}) | perl -lne "print if /^\t[^_]/"
 		}
 		
 		function _loadENV(){
