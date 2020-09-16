@@ -187,16 +187,14 @@ aptproxyon(){
         echo "No apt command found"
         return 1
     fi
-    if [ $EUID -ne 0 ];then
-        echo "need root privilege"
-        return 2
-    fi
     local proxyFile=/etc/apt/apt.conf.d/httpProxy
-    local proxy=${1:-"http://localhost:8000"}
-cat>${proxyFile}<<EOF
-Acquire::http::proxy \"$proxy\";
-Acquire::https::proxy \"$proxy\";
+    local proxy=${1:-"http://localhost:8080"}
+    echo "use proxy: $proxy"
+    cat>/tmp/httpProxy<<EOF
+Acquire::http::proxy "$proxy";
+Acquire::https::proxy "$proxy";
 EOF
+    sudo mv /tmp/httpProxy $proxyFile
 }
 
 aptproxyoff(){
@@ -204,12 +202,8 @@ aptproxyoff(){
         echo "No apt command found"
         return 1
     fi
-    if [ $EUID -ne 0 ];then
-        echo "need root privilege"
-        return 2
-    fi
     local proxyFile=/etc/apt/apt.conf.d/httpProxy
-    /bin/rm -rf ${proxyFile}
+    sudo /bin/rm -rf ${proxyFile}
 
 }
 
