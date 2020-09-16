@@ -15,7 +15,7 @@ alias orm='/bin/rm'
 alias cl='clear'
 alias prettyjson='python -m json.tool'
 #TODO hard coded
-alias sm="source $HOME/.shellrc"
+alias sm="source $SHELLRC_ROOT/shellrc"
 if command -v vim >/dev/null 2>&1;then
     alias vi='vim'
 fi
