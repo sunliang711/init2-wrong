@@ -51,8 +51,8 @@ runAsRoot(){
         sudo sh -c "$cmd"
     fi
 }
-startLine="##CUSTOM BEGIN v2"
-endLine="##CUSTOM END v2"
+startLine="##CUSTOM BEGIN v3"
+endLine="##CUSTOM END v3"
 
 usage(){
     cat<<-EOF
@@ -70,8 +70,6 @@ EOF
 
 bashrc="${home}/.bashrc"
 zshrc="${home}/.zshrc"
-shellrc="$home/.shellrc"
-shellrcd="$home/.shellrc.d"
 
 install(){
     local type=${1}
@@ -103,21 +101,19 @@ install(){
             # Linux uses readline library,'set editing-mode vi' set vi mode
             ;;
     esac
-    rm -rf $shellrc >/dev/null 2>&1
-    rm -rf $shellrcd >/dev/null 2>&1
-
-    ln -sf $root/shellrc $shellrc
-    ln -sf $root/shellrc.d $shellrcd
 
     if ! grep -q "$startLine" "$configFile";then
-        echo "$startLine" >> "$configFile"
-        # echo "[ -f $globalrc ] && source $globalrc" >> "$configFile"
-        echo "[ -f $shellrc ] && source $shellrc" >> "$configFile"
-        echo "$endLine" >> "$configFile"
-        echo "Done."
+        cat <<-EOF >> "$configFile"
+	$startLine
+	export SHELLRC_ROOT=${root}
+	source \${SHELLRC_ROOT}/shellrc
+	$endLine
+	EOF
     fi
 
-    echo "append_path $root/tools" >> $root/shellrc.d/local
+    if ! grep -q "$root/tools" $root/shellrc.d/local ;then
+        echo "append_path $root/tools" >> $root/shellrc.d/local
+    fi
 
 }
 
@@ -150,10 +146,9 @@ uninstall(){
             fi
             ;;
     esac
-    rm -rf $shellrc
-    rm -rf $shellrcd
 
     sed -ibak -e "/$startLine/,/$endLine/ d" "$configFile"
+    rm -rf ${configFile}bak
 }
 
 

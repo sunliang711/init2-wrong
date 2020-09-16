@@ -1,6 +1,15 @@
 #!/bin/bash
 source ./config
 
+cat<<EOF
+use
+----------------------------------------------------------------
+{:for c from=1 to=999 do={/ip firewall nat remove numbers=\$c}}
+----------------------------------------------------------------
+to remove all rules except masquerade srcnat(number 0)
+
+EOF
+
 for mapping in "${mappings[@]}";do
     IFS=$'|'
     read protocol dstPort toAddresses toPorts comment <<< "$mapping"
