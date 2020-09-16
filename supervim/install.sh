@@ -63,6 +63,8 @@ Note:   install nodejs pip3 golang fzf when need
 EOF
     read cnt
 
+    cat msg
+
     font=0
     origin=0
     vimroot=
