@@ -978,7 +978,7 @@ function em(){
     if command -v nvim >/dev/null 2>&1;then
         editor=nvim
     fi
-    destfile="$HOME/.shellrc"
+    destfile="$SHELLRC_ROOT/shellrc"
     while getopts ":hfaeobl" opt;do
         case $opt in
             h)
@@ -986,22 +986,22 @@ function em(){
                 return 1
                 ;;
             f)
-                destfile="$HOME/.shellrc.d/function"
+                destfile="$SHELLRC_ROOT/shellrc.d/function"
                 ;;
             a)
-                destfile="$HOME/.shellrc.d/alias"
+                destfile="$SHELLRC_ROOT/shellrc.d/alias"
                 ;;
             e)
-                destfile="$HOME/.shellrc.d/env"
+                destfile="$SHELLRC_ROOT/shellrc.d/env"
                 ;;
             o)
-                destfile="$HOME/.shellrc.d/other"
+                destfile="$SHELLRC_ROOT/shellrc.d/other"
                 ;;
             b)
-                destfile="$HOME/.shellrc.d/basic"
+                destfile="$SHELLRC_ROOT/shellrc.d/basic"
                 ;;
             l)
-                destfile="$HOME/.shellrc.d/local"
+                destfile="$SHELLRC_ROOT/shellrc.d/local"
                 ;;
             \?)
                 echo "Unkown option: \"$OPTARG\""
@@ -1532,7 +1532,7 @@ function editService(){
     sudo -E systemctl edit --full $serviceName
 }
 
-source ~/.shellrc.d/function-snippets
+source ${SHELLRC_ROOT}/shellrc.d/function-snippets
 #END function
 
 # vim: set ft=sh:
