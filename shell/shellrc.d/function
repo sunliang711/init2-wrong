@@ -187,8 +187,30 @@ aptproxyon(){
         echo "No apt command found"
         return 1
     fi
+
+    local host=localhost
+
+    while getopts ":h:" opt;do
+        case $opt in
+            h)
+                host=$OPTARG
+                ;;
+            :)
+                echo "Option '$OPTARG' missing arg"
+                return 1
+                ;;
+            \?)
+                echo "Unkown option '$OPTARG'"
+                return 2
+                ;;
+        esac
+    done
+    shift $(($OPTIND-1))
+    local port=${1:-8000}
+
+    local proxy="http://$host:$port"
+
     local proxyFile=/etc/apt/apt.conf.d/httpProxy
-    local proxy=${1:-"http://localhost:8080"}
     echo "use proxy: $proxy"
     cat>/tmp/httpProxy<<EOF
 Acquire::http::proxy "$proxy";
