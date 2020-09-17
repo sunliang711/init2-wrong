@@ -105,7 +105,7 @@ install(){
     local binPath="${dest}/go/bin"
     if [ -e "${localFile}" ];then
         if ! grep -q "${binPath}" "${localFile}";then
-            echo "${binPath}" >> "${localFile}"
+            echo "append_path ${binPath}" >> "${localFile}"
         fi
     else
         echo "go$version has been installed to $dest, add ${binPath} to PATH manually"

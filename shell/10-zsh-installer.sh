@@ -25,6 +25,7 @@ if ! command -v zsh >/dev/null 2>&1;then
 fi
 if ! command -v zsh >/dev/null 2>&1;then
     echo "Cannot find zsh"
+    echo "Please install zsh first!"
     exit 1
 fi
 

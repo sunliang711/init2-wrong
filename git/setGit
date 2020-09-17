@@ -9,6 +9,10 @@ fi
 SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPTDIR"
 
+if ! command -v vimdiff >/dev/null 2>&1;then
+    echo "Warning: Need vimdiff"
+fi
+
 gitconfig(){
     git config --global user.email "$1"
     git config --global user.name "$2"
