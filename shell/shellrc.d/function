@@ -1211,7 +1211,7 @@ function newsh(){
 		fi
 		this="$(cd $(dirname $rpath) && pwd)"
 		cd "$this"
-		export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+		export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 		
 		user="${SUDO_USER:-$(whoami)}"
 		home="$(eval echo ~$user)"
