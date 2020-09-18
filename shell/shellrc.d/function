@@ -300,6 +300,7 @@ function proxyon_(){
             if [ -n "$systemProxy" ];then
                 if echo "$systemProxy" | grep -q '^http://';then
                     systemProxy=${systemProxy:7}
+                    echo "Found system proxy: ${systemProxy}"
                 fi
             fi
         fi
@@ -325,7 +326,13 @@ function proxyon_(){
     local port=${1:-6119}
 
     # local proxy=http://$host:$port
-    local proxy=${systemProxy:-"http://$host:$port"}
+    if [ -n "${systemProxy}" ];then
+        echo "use system proxy: ${systemProxy}"
+        local proxy=${systemProxy}
+    else
+        echo "use host:$host (-h to specify) port: $port (first parameter) as proxy"
+        local proxy="http://${host}:${port}"
+    fi
 
     echo "set http_proxy https_proxy ftp_proxy all_proxy to $proxy"
     export http_proxy=$proxy
