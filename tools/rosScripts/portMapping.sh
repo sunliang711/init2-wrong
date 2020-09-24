@@ -1,6 +1,12 @@
 #!/bin/bash
 source ./config
 
+trim(){
+    if [ -n "${1}" ];then
+        echo "${1}" | perl -lne 'print $1 if /^\s*(.+)\s*$/'
+    fi
+}
+
 cat<<EOF
 use
 ----------------------------------------------------------------
@@ -13,11 +19,11 @@ EOF
 for mapping in "${mappings[@]}";do
     IFS=$'|'
     read protocol dstPort toAddresses toPorts comment <<< "$mapping"
-    protocol="$(echo $protocol |sed -e 's|^[[:space:]]*||' -e 's|[[:space:]]*$||')"
-    dstPort="$(echo $dstPort |sed -e 's|^[[:space:]]*||' -e 's|[[:space:]]*$||')"
-    toAddresses="$(echo $toAddresses |sed -e 's|^[[:space:]]*||' -e 's|[[:space:]]*$||')"
-    toPorts="$(echo $toPorts |sed -e 's|^[[:space:]]*||' -e 's|[[:space:]]*$||')"
-    comment="$(echo $comment |sed -e 's|^[[:space:]]*||' -e 's|[[:space:]]*$||')"
+    protocol="$(trim $protocol)"
+    dstPort="$(trim $dstPort)"
+    toAddresses="$(trim $toAddresses)"
+    toPorts="$(trim $toPorts)"
+    comment="$(trim $comment)"
 
     if [ -z "$toPorts" ];then
         toPorts="$dstPort"
