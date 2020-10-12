@@ -1495,6 +1495,26 @@ function bak(){
     done
 }
 
+sshconfig(){
+    editor=vi
+    if command -v vim >/dev/null 2>&1;then
+        editor=vim
+    fi
+    if command -v vim >/dev/null 2>&1;then
+        editor=nvim
+    fi
+
+    user="${SUDO_USER:-$(whoami)}"
+    home="$(eval echo ~$user)"
+
+    local sshDir=${home}/.ssh
+
+    if [ ! -d ${sshDir} ];then
+        mkdir -p ${sshDir}
+    fi
+    $editor ${sshDir}/config
+}
+
 function sendmail(){
     local url=https://aliyun.eagle711.win:9000/send
     receiver="sunliang711@163.com"
