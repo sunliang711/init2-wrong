@@ -1495,6 +1495,10 @@ function bak(){
     done
 }
 
+cdinit(){
+    cd ${SHELLRC_ROOT}/..
+}
+
 sshconfig(){
     editor=vi
     if command -v vim >/dev/null 2>&1;then
