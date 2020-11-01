@@ -1223,6 +1223,7 @@ function newsh(){
 		user="${SUDO_USER:-$(whoami)}"
 		home="$(eval echo ~$user)"
 		
+		export TERM=xterm-256color
 		red=$(tput setaf 1)
 		green=$(tput setaf 2)
 		yellow=$(tput setaf 3)
@@ -1493,6 +1494,10 @@ function bak(){
             mv "${i}" "${i}.bak"
         fi
     done
+}
+
+cdinit(){
+    cd ${SHELLRC_ROOT}/..
 }
 
 sshconfig(){
