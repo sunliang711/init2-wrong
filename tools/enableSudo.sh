@@ -80,7 +80,7 @@ enable(){
     user=${1:?'missing user'}
     if grep -q "${beginLine}" ${customRule};then
         echo "Already enabled,exit."
-        return 1
+        return 0
     else
         cat>>${customRule}<<-EOF
 		${beginLine}
