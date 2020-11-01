@@ -26,5 +26,6 @@ mappings=(
 "tcp|32400|10.1.1.100|32400|pve plex server"
 "tcp|9006|10.1.1.100|8006|pve web controller"
 "tcp|3389|10.1.1.21||win10 remote desktop"
+"tcp|27017|10.1.1.26||mongo db"
 )
 
