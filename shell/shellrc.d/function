@@ -436,11 +436,25 @@ function mkcddir(){
     mkdir -p "$1" && cd $_
 }
 
-function rm(){
-    for i in "$@";do
-        echo "move $i to /tmp/${i//\//@}-$(date +%FT%T)"
-        mv "$i" "/tmp/${i//\//@}-$(date +%FT%T)"
+rm(){
+    local pre=/tmp/recycle
+    if [ ! -d "${pre}" ];then
+        mkdir -p "${pre}"
+    fi
+    local timestamp="$(date +%Y-%m-%d_%H-%M-%S)"
+    for f in "$@";do
+        # local fullpath="$(realpath -s $f)"
+        local fullpath="$(echo $(cd $(dirname $f); pwd)/$(basename $f))"
+        local newpath="${pre}/${fullpath//\//#}-${timestamp}"
+        echo "mv ${f} to ${newpath}"
+        mv "${f}" "${newpath}"
     done
+
+}
+
+#TODO
+restore(){
+    echo "TODO: revert rm()"
 }
 
 codePath="/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code"
