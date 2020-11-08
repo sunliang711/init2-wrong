@@ -74,7 +74,12 @@ _root(){
         echo "need run as root."
         exit 1
     fi
+    if ! command -v sudo >/dev/null 2>&1;then
+        echo "Please install sudo."
+        exit 1
+    fi
 }
+
 enable(){
     _root
     user=${1:?'missing user'}
